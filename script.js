@@ -1,4 +1,3 @@
-// Step 3: Toggle Navigation Menu (Hamburger)
 const navToggle = document.getElementById('nav-toggle');
 const navMenu = document.querySelector('nav ul');
 
@@ -8,7 +7,6 @@ if (navToggle && navMenu) {
 	});
 }
 
-// Smooth Scroll for Nav Links
 document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
 	anchor.addEventListener('click', function (e) {
 		e.preventDefault();
@@ -19,7 +17,6 @@ document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
 	});
 });
 
-// Step 4: Filter Projects by Category (Placeholder example)
 function filterProjects(category) {
 	const projects = document.querySelectorAll('#projects article');
 	projects.forEach(project => {
@@ -31,7 +28,6 @@ function filterProjects(category) {
 	});
 }
 
-// Lightbox for Project Images
 const projectImages = document.querySelectorAll('#projects img');
 
 projectImages.forEach(img => {
@@ -52,7 +48,6 @@ projectImages.forEach(img => {
 	});
 });
 
-// Step 5: Contact Form Validation
 const contactForm = document.querySelector('#contact form');
 
 if (contactForm) {
