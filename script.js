@@ -1,75 +1,46 @@
-const navToggle = document.getElementById('nav-toggle');
-const navMenu = document.querySelector('nav ul');
-
-if (navToggle && navMenu) {
-	navToggle.addEventListener('click', () => {
-		navMenu.classList.toggle('active');
-	});
-}
-
-document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-	anchor.addEventListener('click', function (e) {
+// Smooth Scrolling
+const links = document.querySelectorAll('nav a');
+links.forEach(link => {
+	link.addEventListener('click', (e) => {
 		e.preventDefault();
-		const section = document.querySelector(this.getAttribute('href'));
-		section.scrollIntoView({
-			behavior: 'smooth'
-		});
+		const target = document.querySelector(link.getAttribute('href'));
+		target.scrollIntoView({ behavior: 'smooth' });
 	});
 });
 
-function filterProjects(category) {
-	const projects = document.querySelectorAll('#projects article');
-	projects.forEach(project => {
-		if (category === 'all' || project.classList.contains(category)) {
-			project.style.display = 'block';
-		} else {
-			project.style.display = 'none';
-		}
-	});
-}
-
-const projectImages = document.querySelectorAll('#projects img');
-
-projectImages.forEach(img => {
-	img.addEventListener('click', () => {
-		const modal = document.createElement('div');
-		modal.classList.add('modal');
-		modal.innerHTML = `
-      <div class="modal-content">
-        <span class="close-button">&times;</span>
-        <img src="${img.src}" alt="${img.alt}" />
-      </div>
-    `;
-		document.body.appendChild(modal);
-
-		modal.querySelector('.close-button').addEventListener('click', () => {
-			document.body.removeChild(modal);
-		});
-	});
+// Scroll to Top Button
+const scrollTopBtn = document.getElementById('scrollTopBtn');
+window.addEventListener('scroll', () => {
+	scrollTopBtn.style.display = window.scrollY > 300 ? 'block' : 'none';
 });
 
-const contactForm = document.querySelector('#contact form');
+scrollTopBtn.addEventListener('click', () => {
+	window.scrollTo({ top: 0, behavior: 'smooth' });
+});
 
-if (contactForm) {
-	contactForm.addEventListener('submit', function (e) {
-		e.preventDefault();
-
-		const name = this.name.value.trim();
-		const email = this.email.value.trim();
-		const message = this.message.value.trim();
-
-		if (!name || !email || !message) {
-			alert('Please fill in all fields.');
-			return;
+// Scroll Animation on Sections
+const sections = document.querySelectorAll('.fade-in');
+const observer = new IntersectionObserver(entries => {
+	entries.forEach(entry => {
+		if (entry.isIntersecting) {
+			entry.target.classList.add('visible');
 		}
-
-		const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-		if (!emailPattern.test(email)) {
-			alert('Please enter a valid email address.');
-			return;
-		}
-
-		alert('Thank you! Your message has been sent.');
-		this.reset();
 	});
-}
+}, { threshold: 0.1 });
+
+sections.forEach(section => observer.observe(section));
+
+// Form Validation
+const form = document.querySelector('form');
+form.addEventListener('submit', function (e) {
+	e.preventDefault();
+	const name = document.getElementById('name').value.trim();
+	const email = document.getElementById('email').value.trim();
+	const message = document.getElementById('message').value.trim();
+	if (!name || !email || !message) {
+		alert("Please fill in all fields.");
+	} else {
+		alert("Thanks for contacting me!");
+		form.reset();
+	}
+});
